@@ -5,8 +5,17 @@
   "settings":{
     "number_of_replicas":0,
     "number_of_shards":1,
-    "index.refresh_interval":"30s"
-  },
+    "index.refresh_interval":"30s",
+    "analysis": {
+      "analyzer": {
+        "ci_analyzer": {
+          "type": "custom",
+          "filter": [ "lowercase" ],
+          "tokenizer": "standard"
+        }
+      }
+  }
+},
   "mappings":{
        "dynamic": false,
        "date_detection": false,
@@ -84,7 +93,7 @@
           "type":"object",
           "dynamic": true
         },
-	"client":{
+    "client":{
           "type":"object",
           "dynamic": true
         },
@@ -184,7 +193,7 @@
           "type":"object",
           "dynamic": true
         },
-	"irc":{
+    "irc":{
           "type":"object",
           "dynamic": true
         },
@@ -200,7 +209,7 @@
           "type":"object",
           "dynamic": true
         },
-	"message":{  
+    "message":{  
           "type":"text",
           "fields":{  
             "keyword":{  
@@ -212,7 +221,7 @@
           "type":"object",
           "dynamic": true
         },
-	"mysql":{
+    "mysql":{
           "type":"object",
           "dynamic": true
         },
@@ -220,7 +229,7 @@
           "type":"object",
           "dynamic": true
         },
-	"notice":{
+    "notice":{
           "type":"object",
           "dynamic": true
         },
@@ -250,8 +259,20 @@
         },
         "process":{
           "type":"object",
-          "dynamic": true
-        },
+          "dynamic": true,
+          "properties":{
+            "command_line":{
+              "analyzer": "ci_analyzer",
+              "type": "text",
+              "fields": {
+                "so": {
+                  "ignore_above": 32000,
+                  "type": "keyword"
+                }
+              }
+            }
+        }
+      },
         "radius":{
           "type":"object",
           "dynamic": true
@@ -268,7 +289,7 @@
           "type":"object",
           "dynamic": true
         },
-	"request":{
+    "request":{
           "type":"object",
           "dynamic": true
         },
@@ -280,7 +301,7 @@
           "type":"object",
           "dynamic": true
         },
-	"scan":{
+    "scan":{
           "type":"object",
           "dynamic": true
         },
@@ -316,7 +337,7 @@
           "type":"object",
           "dynamic": true
         },
-	"source":{
+    "source":{
           "type":"object",
           "dynamic": true
         },
@@ -328,7 +349,7 @@
           "type":"object",
           "dynamic": true
         },
-	"syslog":{
+    "syslog":{
           "type":"object",
           "dynamic": true
         },
